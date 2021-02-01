@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>title</title>
+    <style>
+        canvas {
+            border : solid;            
+        }
+    </style>
+  </head>
+  <body>
+  <canvas id="canvas" width=1340 height=550 ></canvas>
+  <img id="tree1" src="/tree1.png" hidden>
+
+  <script>
+      var canvas = document.getElementById("canvas")
+      var ctx = canvas.getContext("2d")
+      var tree1 = document.getElementById("tree1")
+
+      setInterval(update,50)
+      var rectPosX = 0
+      var rectPosY = 0
+      var DownPressed = false
+      var UpPressed = false
+      var LeftPressed = false
+      var RightPressed = false
+      var speedX = 0
+      var speedY = 0
+      
+      var listTrees=[]
+
+      var player = {
+        width: 100,
+        height: 100
+      }
+
+        for(var i = 0; i < 10; i++){
+            listTrees.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                width: 10,
+                height: 10,
+                speedX: 1,
+                speedY: 1,
+            })
+        }
+        
+
+
+      document.addEventListener("keydown", keyDownHandler, false);
+      document.addEventListener("keyup", keyUpHandler, false);
+      
+        function keyDownHandler(e) {
+        if(e.key == "ArrowDown") {
+            DownPressed = true;
+            }
+        if(e.key == "ArrowUp") {
+            UpPressed = true;
+            }
+        if(e.key == "ArrowLeft") {
+            LeftPressed = true;
+            }
+        if(e.key == "ArrowRight") {
+            RightPressed = true;
+            }
+        }
+
+        function keyUpHandler(e) {
+        if(e.key == "ArrowDown") {
+            DownPressed = false;
+            }
+        if(e.key == "ArrowUp") {
+            UpPressed = false;
+            }
+        if(e.key == "ArrowLeft") {
+            LeftPressed = false;
+            }
+        if(e.key == "ArrowRight") {
+            RightPressed = false;
+            }
+        }
+
+    function edgeCheck(){
+        if(rectPosX <= 0){
+            speedX = 0
+            rectPosX = 0
+        }
+        if(rectPosX >= 1240){
+            speedX = 0
+            rectPosX = 1240
+        }
+        if(rectPosY <= 0){
+            speedY = 0
+            rectPosY = 0
+        }
+        if(rectPosY >= 450){
+            speedY = 0
+            rectPosY = 450
+        }
+    }
+
+      function update(){
+        ctx.clearRect(0,0,canvas.width,canvas.height)
+        ctx.fillRect(rectPosX,rectPosY,player.width,player.height)
+        ctx.fillStyle = "brown"
+       
+       
+
+        for(var i = 0; i < listTrees.length; i++){
+            ctx.fillRect(listTrees[i].x, listTrees[i].y, listTrees[i].width, listTrees[i].height)
+            listTrees[i].x = listTrees[i].x + listTrees[i].speedX
+        }
+
+        edgeCheck()
+        
+        if(DownPressed){
+            speedY = speedY + 1
+        }
+        if(UpPressed){
+            speedY = speedY - 1
+        }
+        if(LeftPressed){
+            speedX = speedX - 1
+        }
+        if(RightPressed){
+            speedX = speedX + 1
+        }
+
+        rectPosX = rectPosX + speedX
+        rectPosY = rectPosY + speedY
+
+      }
+
+  </script>
+  </body>
+</html>

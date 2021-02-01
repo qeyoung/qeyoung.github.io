@@ -23,13 +23,31 @@ var level01 = function (window) {
         };
         window.levelData = levelData;
         // set this to true or false depending on if you want to see hitzones
-        game.setDebugMode(true);
+        game.setDebugMode(false);
 
         // BEGIN EDITING YOUR CODE HERE
+        function createSawblade(x,y) {
+            var hitZoneSize = 25;
+            var damageFromObstacle = 10;
+            var sawBladeHitZone = game.createObstacle(30, 5);
+            sawBladeHitZone.x = x;
+            sawBladeHitZone.y = y;
+            game.addGameItem(sawBladeHitZone);  
 
-        
-        
-        
+            var obstacleImage = draw.bitmap('img/fish.jpeg');
+            sawBladeHitZone.addChild(obstacleImage);
+            obstacleImage.x = -33;
+            obstacleImage.y = -25;
+            obstacleImage.scaleX = .25;
+            obstacleImage.scaleY = .25;
+
+        }
+
+        createSawblade(400, 210);
+        createSawblade(500, 300);
+        createSawblade(750, 210);
+        createSawblade(900, 300);
+        createSawblade(1200, 200);
         // DO NOT EDIT CODE BELOW HERE
     }
 };
