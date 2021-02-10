@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Worm Odyssey</title>
+  </head>
+  <body>
+  <canvas id="canvas" width=1340 height=550></canvas>
+  <img id="dirt" src="dirt.jpeg" hidden>
+  <img id="dirt2" src="dirt2.jpg" hidden>
+  <img id="alienDirt" src="alien dirt.jpg" hidden> 
+  <img id="wormSprite1R" src="worm sprite 1.png" hidden>
+  <img id="wormSprite2R" src="worm sprite 2.png" hidden>
+  <img id="wormSprite3R" src="jump.png" hidden>
+  <img id="wormSprite1L" src="worm sprite 1L.png" hidden>
+  <img id="wormSprite2L" src="worm sprite 2L.png" hidden>
+  <img id="wormSprite3L" src="jumpL.png" hidden>
+  
+  <script>
+    var canvas = document.getElementById("canvas")
+    var ctx = canvas.getContext("2d")
+    var dirtTitle = document.getElementById("dirt")
+    var dirt2 = document.getElementById("dirt2")
+    var alienDirt = document.getElementById("alienDirt")
+    var worm1R = document.getElementById("wormSprite1R")
+    var worm2R = document.getElementById("wormSprite2R")
+    var worm3R = document.getElementById("wormSprite3R")
+    var worm1L = document.getElementById("wormSprite1L")
+    var worm2L = document.getElementById("wormSprite2L")
+    var worm3L = document.getElementById("wormSprite3L")
+   
+    // variables
+    var DownPressed = false
+    var UpPressed = false
+    var LeftPressed = false
+    var RightPressed = false
+      
+    var speedX = 0
+    var speedY = 0
+      
+    var player = {
+        width: 100,
+        height: 100,
+        posY: 440,
+        posX: 50,
+    }
+
+    var gravity = .45
+    var gravitySpeed = 0
+
+    var timer = 0
+    // end variables
+
+    // button press stuff
+    document.addEventListener("keydown", keyDownHandler, false);
+    document.addEventListener("keyup", keyUpHandler, false);
+      
+        function keyDownHandler(e) {
+        if(e.key == "ArrowDown") {
+            DownPressed = true;
+            }
+        if(e.key == "ArrowUp") {
+            UpPressed = true;
+            }
+        if(e.key == "ArrowLeft") {
+            LeftPressed = true;
+            }
+        if(e.key == "ArrowRight") {
+            RightPressed = true;
+            }
+        }
+
+        function keyUpHandler(e) {
+        if(e.key == "ArrowDown") {
+            DownPressed = false;
+            }
+        if(e.key == "ArrowUp") {
+            UpPressed = false;
+            }
+        if(e.key == "ArrowLeft") {
+            LeftPressed = false;
+            }
+        if(e.key == "ArrowRight") {
+            RightPressed = false;
+            }
+        }
+    
+
+    // edge stuff
+        function edgeCheck(){
+        if(player.posX <= 0){
+            speedX = 0
+            player.posX = 0
+        }
+        if(player.posX >= 1240){
+            speedX = 0
+            player.posX = 1240
+        }
+        if(player.posY <= 0){
+            speedY = 0
+            player.posY = 0
+        }
+        if(player.posY >= 450){
+            speedY = 0
+            player.posY = 450
+        }
+    }
+    
+    
+        
+
+    setInterval(update, 50)
+    function update(){
+        ctx.clearRect(0,0,canvas.width,canvas.height)
+       
+        ctx.fillStyle = "#8B4513"
+        ctx.drawImage(dirtTitle, 0, 0, canvas.width, canvas.height) 
+
+        if(UpPressed){
+            if(speedX >= 0){
+                ctx.drawImage(worm3R,player.posX,player.posY,player.width,player.height)
+            }
+            else{
+                ctx.drawImage(worm3L,player.posX,player.posY,player.width,player.height)
+            }
+        }else if(RightPressed){
+            ctx.drawImage(worm2R,player.posX,player.posY,player.width,player.height)
+        }else if(LeftPressed){
+            ctx.drawImage(worm2L,player.posX,player.posY,player.width,player.height)
+        }else{
+            if(speedX < 0){
+                ctx.drawImage(worm1L,player.posX,player.posY,player.width,player.height)
+            }
+            else{
+                ctx.drawImage(worm1R,player.posX,player.posY,player.width,player.height)
+            }
+        }
+
+        edgeCheck()
+        
+      //  if(DownPressed)
+        
+        if(UpPressed){
+            player.posY += -10
+        }
+        
+        
+        if(LeftPressed){
+            speedX = speedX - 1
+        }
+        
+        if(RightPressed){
+            speedX = speedX + 1
+        }
+
+        if(player.posY >= 450){
+            gravitySpeed = 0
+        }
+        
+        
+        //if(player.posY = 450) tomorrow make variables!!
+
+        gravitySpeed = gravitySpeed + gravity
+        player.posY = player.posY + speedY + gravitySpeed
+        player.posX = (player.posX + speedX) 
+    }
+
+  </script>
+  </body>
+</html>
